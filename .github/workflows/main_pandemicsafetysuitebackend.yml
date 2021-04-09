@@ -23,6 +23,8 @@ jobs:
       with:
         dotnet-version: '5.0.x'
         
+    - name: Clean
+      run: dotnet clean --configuration Release && dotnet nuget locals all --clear    
     
     - name: Restore
       run: dotnet restore
