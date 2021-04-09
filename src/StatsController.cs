@@ -13,9 +13,8 @@ namespace Server.Controllers
         [HttpGet]
         public ActionResult <string> getDoorStats()
         {
-            JObject data = JObject.Parse(System.IO.File.ReadAllText(@"src/data.json"));
-            string dataString = data.ToString();
-            return Ok(dataString);
+            string data = System.IO.File.ReadAllText(@"src/data.json");
+            return Ok(data);
         }
     }
 }
