@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
+      <PackageReference Include="Microsoft.NETCore.Targets" Version="3.0.0" PrivateAssets="all" />
       <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0"/>
       <PackageReference Include="Microsoft.Win32.Primitives" Version= "4.3.0"/>  
       <PackageReference Include="Azure.Messaging.EventHubs" Version="5.3.1" />
