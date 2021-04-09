@@ -15,11 +15,11 @@ namespace Server.Controllers
         [HttpGet]
         public ActionResult <string> getDoorStats()
         {
-           // string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
-           //     ? Environment.GetEnvironmentVariable("HOME") + @"\site\wwwroot\src\data.json"
-           //     : @"src/data.json";
-           // string data = System.IO.File.ReadAllText(fullFilePath);
-           string data = Directory.GetCurrentDirectory();
+            string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
+                ? @"home/site/wwwroot//data.json"
+                : @"src/data.json";
+            string data = System.IO.File.ReadAllText(fullFilePath);
+          // string data = Directory.GetCurrentDirectory();
            return Ok(data);
         }
     }
