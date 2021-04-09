@@ -16,7 +16,7 @@ namespace Server.Controllers
         public ActionResult <string> getDoorStats()
         {
             string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
-                ? @"home/site/wwwroot/data.json"
+                ? Environment.GetEnvironmentVariable("HOME").ToString() + "\\site\\wwroot\\src\\data.json"
                 : @"src/data.json";
             string data = System.IO.File.ReadAllText(fullFilePath);
           // string data = Directory.GetCurrentDirectory();
