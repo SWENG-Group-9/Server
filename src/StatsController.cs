@@ -15,7 +15,7 @@ namespace Server.Controllers
         {
             JObject data = JObject.Parse(System.IO.File.ReadAllText("\\data.json"));
             string dataString = data.ToString();
-            return Ok(dataString);
+            return Ok("dataString");
         }
     }
 }
