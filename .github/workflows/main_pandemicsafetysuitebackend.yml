@@ -22,6 +22,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
+        
+    - name: Install Nuget
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: '5.3.1'
+    - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
+      run: nuget restore
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
