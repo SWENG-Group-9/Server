@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Server;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
 
 namespace Server.Controllers
 {
@@ -13,7 +15,10 @@ namespace Server.Controllers
         [HttpGet]
         public ActionResult <string> getDoorStats()
         {
-            string data = System.IO.File.ReadAllText(@"src/data.json");
+            string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
+                ? Environment.GetEnvironmentVariable("HOME") + @"\site\wwwroot\src\data.json"
+                : @"src/data.json";
+            string data = System.IO.File.ReadAllText(fullFilePath);
             return Ok(data);
         }
     }
