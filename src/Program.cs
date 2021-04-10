@@ -12,8 +12,8 @@ namespace Server
 {
     public class Program
     {
-        public static string frontendPort ="fdslkhfsdoi";
-        public static int  current = 0;
+        public static string frontendPort = "fdslkhfsdoi";
+        public static int current = 0;
         public static int max = 10;
         public static List<string> devices = new List<string>();
         public static List<int> types = new List<int>();
