@@ -30,7 +30,7 @@ Sample Output
 false
 ```
 
-## `PUT` `/api/devices/id`
+## `GET` `/api/devices/id`
 
 Registers a new IoT Device under the id given in the request with the IoT Hub and returns the connection string needed to be entered into the device in json format
 
