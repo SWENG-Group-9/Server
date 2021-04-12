@@ -42,6 +42,9 @@ HostName=sweng.azure-devices.net;DeviceId=id;SharedAccessKey=9+fS9USROYYFY5/cV/s
 ## `GET` `/api/stats`
 Returns json file with stats. (in same format of data.json in the front end branch)
 
+## `GET` `/api/stats/id`
+Returns json file with stats for specific date(YYYY-MM-DD). (in same format of data.json in the front end branch)
+
 Sample Output
 ```json
 {"2021-01-01":[{"time":"00:00",
