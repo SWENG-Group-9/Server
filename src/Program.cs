@@ -14,8 +14,8 @@ namespace Server
     public class Program
     {
         public static string configstring = Environment.GetEnvironmentVariable("HOME") != null
-                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/app.config"
-                : @"app.config";
+                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/config.json"
+                : @"config.json";
 
         public static dynamic config = Newtonsoft.Json.JsonConvert.DeserializeObject(configstring); 
         
