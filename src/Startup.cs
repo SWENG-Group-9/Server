@@ -24,16 +24,17 @@ namespace Server
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+
+        readonly string Frontend = "Frontend";
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        // super not secure and needs to be changed for prod
-                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                    });
+                options.AddPolicy(name: Frontend,
+                              builder =>
+                              {
+                                  builder.WithOrigins(Server.Program.frontendPort);
+                              });
             });
 
             services.AddControllers();
