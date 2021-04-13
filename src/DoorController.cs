@@ -9,17 +9,17 @@ namespace Server.Controllers
     public class DoorController : ControllerBase
     {
 
-        [HttpPut]
-      public ActionResult overrideDoor()
+        [HttpPut("{id}")]
+      public ActionResult overrideDoor(int id)
         {
-            InvokeDeviceMethod.Program.overrideDoor();
+            InvokeDeviceMethod.Program.overrideDoor(id);
             return NoContent();
         }
 
         [HttpGet]
         public ActionResult<bool> doorStatus()
         {
-            return Ok(Server.Program.locked);
+            return Ok();
         }  
     }
 }

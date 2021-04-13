@@ -1,28 +1,32 @@
 using System;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Stats
 {
     public class statcollection
     {
+        static private bool check = false;
 
-        public static void statsToJson()
+        public static void statsGenerator()
         {
-            DateTime date = DateTime.Now;                                                                                       //gets current date and time in format DD/MM/YYYY HH:MM:SS AM/PM
-            File.WriteAllText(@"C:\Device\server\data.json", "{\"" + date.ToString("yyyy-MM-dd") + "\":[");                     //writes current date to .json file in format YYYY-MM-DD, with some syntax
-            while (Equals(date.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd")))                                    //while still current day
+            DateTime dateTime = DateTime.Now;
+            if(dateTime.Minute==0 && check == false || dateTime.Minute == 30 && check == true)
             {
-                String timeAndCurrent = null;                                                                                   //initialise output string
-                if (Equals(date.ToString("t"), "23:30")){                                                                       //slight change in syntax for final output
-                    timeAndCurrent = "{\"time\":\"" + date.ToString("t") + "\",\n\"value\":" + Server.Program.current + "},]\n";                       
-                }
-                if (Equals((date.ToString("t")[3] + date.ToString("t")[4]), "00") ||                                            //if time ends in 00 or 30 ie outputs time and value for current every half an hour
-                (Equals((date.ToString("t")[3] + date.ToString("t")[4]), "30")))
-                {
-                    timeAndCurrent = "{\"time\":\"" + date.ToString("t") + "\",\n\"value\":" + Server.Program.current + "},\n";                //creates string with time in format HH:MM and value for current
-                }
-                File.WriteAllText(@"C:\Device\server\data.json", timeAndCurrent);                                               //writes output file to .json
-            }
+            string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
+                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/data.json"
+                : @"src/data.json";                                           
+            string json =  File.ReadAllText(fullFilePath);
+            String date = dateTime.ToString("u").Substring(0,10);   
+            string time = dateTime.ToString("s").Substring(11,8);
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            jsonObj[date][(dateTime.Hour/2) + (dateTime.Minute/30)]["time"] = time;
+            jsonObj[date][(dateTime.Hour/2) + (dateTime.Minute/30)]["value"] = Server.Program.current;
+            string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(fullFilePath, output);
+            check = !check;
+            }       
         }
     }  
 }
