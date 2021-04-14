@@ -22,7 +22,6 @@ namespace Server.Controllers
           // string data = Directory.GetCurrentDirectory();
            return Ok(data);
         }
-
         [HttpGet("{id}")]   //date input format YYYY-MM-DD
         public ActionResult <string> getDateData(string id)
         {
@@ -30,9 +29,10 @@ namespace Server.Controllers
                 ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/data.json"
                 : @"src/data.json";
             string data = System.IO.File.ReadAllText(fullFilePath);
-            int Start=data.IndexOf(id,0)+id.Length;               //index of id in string
-            int End=data.IndexOf("}]",Start);                     //index of end of data for month
-            return "{\""+id+data.Substring(Start,End-Start)+"}]}";  //return data for month in same format as json
+          // string data = Directory.GetCurrentDirectory();
+          int Start=data.IndexOf(id,0)+id.Length;               //index of id in string
+          int End=data.IndexOf("}]",Start);                     //index of end of data for month
+          return "{\""+id+data.Substring(Start,End-Start)+"}]}";  //return data for month in same format as json
         }
     }
 }

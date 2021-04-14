@@ -11,7 +11,7 @@ namespace devicemessages
     public class Event
     { 
         private static System.Timers.Timer aTimer;
-        private static string e_endpointName = Server.Program.config["Event"];
+        private static string e_endpointName = "Endpoint=sb://iothub-ns-sweng-8642906-2c7633ebc9.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=7EVv/KvGgCAToj4TeHKRoo5I812ttE6I2O/wvnOUaJ4=;EntityPath=sweng";
         public static string message = "";
         private static CancellationTokenSource __tokenSource = new CancellationTokenSource();
         private static CancellationToken ct = __tokenSource.Token;
