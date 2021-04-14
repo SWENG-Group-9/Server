@@ -16,8 +16,9 @@ namespace Server
         public static string configstring = Environment.GetEnvironmentVariable("HOME") != null
                 ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/config.json"
                 : @"config.json";
-
-        public static dynamic config = Newtonsoft.Json.JsonConvert.DeserializeObject(configstring); 
+        
+        public static string configData =  File.ReadAllText(configstring);
+        public static dynamic config = Newtonsoft.Json.JsonConvert.DeserializeObject(configData); 
         
         public static string frontendPort = config["Frontend"];
         public static int current = 0;
