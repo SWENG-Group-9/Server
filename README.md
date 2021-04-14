@@ -18,26 +18,34 @@ Returns the max number of people in the store in json format
 ## `PUT` `/api/max/i`
 Sets the max customers in the store to i
 
+
 ## `PUT` `/api/door`
 
 Overrides the lock mechanism and forces the door to either open or close (depending on what it was before issuing the command). Issuing this command again returns the door to automatic.
 
-## `GET` `/api/door`
-Returns whether the doors are locked or not as a boolean (True = locked, False = unlocked) in json format
 
-Sample Output
-```json
-false
-```
+## `POST` `/api/devices/id/type`
 
-## `GET` `/api/devices/id`
-
-Registers a new IoT Device under the id given in the request with the IoT Hub and returns the connection string needed to be entered into the device in json format
+Registers a new IoT Device under the id and type ("in","out","both") given in the request with the IoT Hub and returns the connection string needed to be entered into the device in json format
 
 Sample Output
 ```json
 HostName=sweng.azure-devices.net;DeviceId=id;SharedAccessKey=9+fS9USROYYFY5/cV/sxet+tCMEyh+xQV/rg/V6oOSE=
 ```
+
+## `GET` `/api/devices`
+
+Returns a list of all devices connected to the IoT hub and returns all relative data in JSON. The format is [[device name,id number,type of door, door status (true if locked, false if unlocked), door operation mode(true if manual, false if automatic)].
+
+Sample Output
+```json
+[[az-c89346883a40,0,in,true,false] , [AZ-c89346886016,1,out,false,false]]
+```
+
+
+##`DELETE` `/api/devices/id`
+
+Takes in a device id number and deletes it from the iot hub, as well as removing all references to it on the backend server.
 
 ## `GET` `/api/stats`
 Returns json file with stats. (in same format of data.json in the front end branch)
@@ -144,4 +152,3 @@ Sample Output
     {"time":"23:30",
     "value":15}]}
 ```
- 
