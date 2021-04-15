@@ -30,7 +30,7 @@ namespace Server.Controllers
                 returnString.Append(Server.Program.devices[i].status + ",");
                 returnString.Append(Server.Program.devices[i].operation + "] , ");
             }
-            returnString.Remove(returnString.Length - 1,2);
+            returnString.Remove(returnString.Length - 3,3);
             returnString.Append("]");
             return Ok(returnString.ToString());
         }
