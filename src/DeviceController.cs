@@ -24,11 +24,11 @@ namespace Server.Controllers
             returnString.Append("[");
             for(int i = 0; i < Server.Program.devices.Count;i++)
             {
-                returnString.Append("[" + Server.Program.devices[i].name + ",");
+                returnString.Append("[" +'"'+ Server.Program.devices[i].name + '"' +",");
                 returnString.Append(Server.Program.devices[i].id + ",");
-                returnString.Append(Server.Program.devices[i].type + ",");
-                returnString.Append(Server.Program.devices[i].status + ",");
-                returnString.Append(Server.Program.devices[i].operation + "],");
+                returnString.Append('"' + Server.Program.devices[i].type + '"' + ",");
+                returnString.Append(Server.Program.devices[i].status.ToString().ToLower() + ",");
+                returnString.Append(Server.Program.devices[i].operation.ToString().ToLower() + "],");
             }
             returnString.Remove(returnString.Length - 1,1);
             returnString.Append("]");
