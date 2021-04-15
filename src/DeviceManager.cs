@@ -4,16 +4,17 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using devices;
 namespace register
 {
     class manageDevices
     {
-        static int type = 0;
+        static int ids = 0;
+        static string type = "";
         static string tempID;
         static string deviceconn;
 
-        const string connectionString ="HostName=sweng.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=7EVv/KvGgCAToj4TeHKRoo5I812ttE6I2O/wvnOUaJ4=";     
+        static string connectionString = Server.Program.config["Owner"];     
         public static void updateDeviceList()
         {
             GetDeviceIdAsync().Wait();
@@ -33,14 +34,19 @@ namespace register
                     {
                         string id = JsonConvert.SerializeObject(twin.DeviceId);
                         string properties = JsonConvert.SerializeObject(twin.Tags);
+                        Console.WriteLine(properties);
                         string newId = id.Trim('"');
-                        Server.Program.devices.Add(newId);
-                        if(properties.Contains("'in'")){
-                            Server.Program.types.Add(0);
+                        if(properties.Contains("in")){
+                            Server.Program.devices.Add(new device(newId,"in",ids));
                         }
-                        else
-                            Server.Program.types.Add(1);
-                        Server.Program.keys.Add(Server.Program.keys.Count);
+                        else if(properties.Contains("out")){
+                            Server.Program.devices.Add(new device(newId,"out",ids));
+                        }
+                        else{
+                            Server.Program.devices.Add(new device(newId,"both",ids));
+                        }
+                        ids++;
+                            
                         Console.WriteLine(id);
                     }
                 }
@@ -50,12 +56,11 @@ namespace register
                 Console.WriteLine("Error : {0}", dvcEx);
             }
         }
-
-        public static string addDeviceEntrance(string newID,int doorType)
+        public static string addDeviceEntrance(string newName,string doorType)
         {
             type = doorType;
             deviceconn = "Unable to add device";
-            tempID = newID;
+            tempID = newName;
             addDeviceToHub().Wait();
             return deviceconn;
         }
@@ -69,11 +74,12 @@ namespace register
             try
             {
                 device = await RM.AddDeviceAsync(new Device(deviceID));
-                Server.Program.devices.Add(deviceID);
+                Server.Program.devices.Add(new device(deviceID,type,ids));
+                ids++;
                 var dev = RM.GetDeviceAsync(deviceID).Result;
-                deviceconn ="HostName=sweng.azure-devices.net;DeviceId=" + deviceID +";SharedAccessKey=" + dev.Authentication.SymmetricKey.PrimaryKey;
+                deviceconn ="HostName=" + Server.Program.config["Hub Name"] + ".azure-devices.net;DeviceId=" + deviceID +";SharedAccessKey=" + dev.Authentication.SymmetricKey.PrimaryKey;
                 var twin = RM.GetTwinAsync(deviceID);
-                if(type == 0){
+                if(type == "in"){
                     var patch =
                     @"{
                        tags: {
@@ -84,7 +90,7 @@ namespace register
                     RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
                     
                 }
-                else if(type == 1){
+                else if(type == "out"){
                     var patch =
                     @"{
                        tags: {
@@ -93,18 +99,42 @@ namespace register
                         }
                     }";
                     RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
-                    List<string> idList = new List<string>();
-                    idList.Add(deviceID);
-                    InvokeDeviceMethod.Program.deviceMethod("out",idList).Wait();
                 }
-                
+                else{
+                    var patch =
+                    @"{
+                       tags: {
+                            location: null,
+                            door: both
+                        }
+                    }";
+                    RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
+                }
+                List<device> idList = new List<device>();
+                    idList.Add(Server.Program.devices[Server.Program.devices.Count-1]);
+                    InvokeDeviceMethod.Program.deviceMethod(type,idList).Wait();
             }
             catch (DeviceAlreadyExistsException dvcEx)
             {
                 Console.WriteLine("Error : {0}", dvcEx);
             }
         }
+
+        public static void removeDevice(int doorId)
+        {
+            int temp = -1;
+            for(int i = 0; i<Server.Program.devices.Count;i++)
+            {
+                if(Server.Program.devices[i].id == doorId)
+                {
+                    temp = i;
+                    goto foundDoor;
+                }
+            }
+        foundDoor:
+            RegistryManager RM = RegistryManager.CreateFromConnectionString(connectionString);
+            RM.RemoveDeviceAsync(Server.Program.devices[temp].name);
+            Server.Program.devices.RemoveAt(temp);
+        }
     }
 }
-
-
