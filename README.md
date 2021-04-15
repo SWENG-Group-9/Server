@@ -43,7 +43,7 @@ Sample Output
 ```
 
 
-##`DELETE` `/api/devices/id`
+## `DELETE` `/api/devices/id`
 
 Takes in a device id number and deletes it from the iot hub, as well as removing all references to it on the backend server.
 
