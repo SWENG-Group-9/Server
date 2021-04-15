@@ -28,9 +28,9 @@ namespace Server.Controllers
                 returnString.Append(Server.Program.devices[i].id + ",");
                 returnString.Append(Server.Program.devices[i].type + ",");
                 returnString.Append(Server.Program.devices[i].status + ",");
-                returnString.Append(Server.Program.devices[i].operation + "] , ");
+                returnString.Append(Server.Program.devices[i].operation + "],");
             }
-            returnString.Remove(returnString.Length - 3,3);
+            returnString.Remove(returnString.Length - 1,1);
             returnString.Append("]");
             return Ok(returnString.ToString());
         }
