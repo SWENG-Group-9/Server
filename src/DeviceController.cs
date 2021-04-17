@@ -12,7 +12,7 @@ namespace Server.Controllers
     {
 
         [HttpPost("{id}/{type}")]
-      public ActionResult addDevice(string id,string type)
+        public ActionResult addDevice(string id,string type)
         {
             string connstring = manageDevices.addDeviceEntrance(id,type);
             return Ok(connstring);

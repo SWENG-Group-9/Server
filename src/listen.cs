@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using Server;
+using devices;
+using register;
 
 namespace devicemessages
 {
@@ -17,6 +19,9 @@ namespace devicemessages
         private static CancellationToken ct = __tokenSource.Token;
 
         public static DateTimeOffset startTime = DateTime.Now;
+        public static String deviceID="";
+        public static String type="";
+        public static int ids=0;
         public static async Task ReceiveMessagesFromDeviceAsync()
         { 
             await using var consumer = new EventHubConsumerClient(
@@ -50,7 +55,11 @@ namespace devicemessages
                         }
                         Console.Write(Program.current);
                     }
-                    
+                    else if(message == "s"){
+                        manageDevices.addDeviceEntrance(deviceID,type);
+                        device newDev= new device(deviceID,type,ids+1);
+                        Program.devices.Add(newDev);
+                    }
                 }
             }
             catch (TaskCanceledException)
