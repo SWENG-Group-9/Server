@@ -16,7 +16,7 @@ namespace Server.Controllers
         public ActionResult <string> getDoorStats()
         {
             string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
-                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/data.json"
+                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/data.json"
                 : @"src/data.json";
             string data = System.IO.File.ReadAllText(fullFilePath);
           // string data = Directory.GetCurrentDirectory();
@@ -26,7 +26,7 @@ namespace Server.Controllers
         public ActionResult <string> getDateData(string id)
         {
             string fullFilePath = Environment.GetEnvironmentVariable("HOME") != null
-                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/site/data.json"
+                ? Environment.GetEnvironmentVariable("HOME").ToString() + "/data.json"
                 : @"src/data.json";
             string data = System.IO.File.ReadAllText(fullFilePath);
           // string data = Directory.GetCurrentDirectory();
