@@ -7,7 +7,7 @@ namespace Stats
 {
     public class statcollection
     {
-        static private bool check = true;
+        static private bool check = false;
 
         public static void statsGenerator()
         {
