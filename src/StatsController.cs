@@ -32,7 +32,7 @@ namespace Server.Controllers
           // string data = Directory.GetCurrentDirectory();
           int Start=data.IndexOf(id,0)+id.Length;               //index of id in string
           int End=data.IndexOf("]",Start);                     //index of end of data for month
-          return "{\""+id+data.Substring(Start,End-Start)+"}]}";  //return data for month in same format as json
+          return "{\""+id+data.Substring(Start,End-Start)+"]}";  //return data for month in same format as json
         }
     }
 }
