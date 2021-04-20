@@ -12,8 +12,6 @@ namespace InvokeDeviceMethod
         // Connection string for your IoT Hub
         // az iot hub show-connection-string --hub-name {your iot hub name} --policy-name service
         public static string s_connectionString = Server.Program.config["Service"];
-
-        public static async Task deviceMethod(string methodName,List<device> deviceID)
  
         public static async Task deviceMethod(string methodName, List<device> deviceID)
         {
