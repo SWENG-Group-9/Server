@@ -26,7 +26,7 @@ namespace Server
         public static int current = 0;
         public static int max = 10;
         public static List<device> devices = new List<device>();
-
+        public static bool systemDisabled = false;              //boolean to set system status, false means system is not disabled
         static ThreadStart stats = new ThreadStart(getStats);
         static ThreadStart hostTS = new ThreadStart(host);
         static string[] tempargs;
