@@ -14,6 +14,8 @@ namespace InvokeDeviceMethod
         public static string s_connectionString = Server.Program.config["Service"];
 
         public static async Task deviceMethod(string methodName,List<device> deviceID)
+ 
+        public static async Task deviceMethod(string methodName, List<device> deviceID)
         {
             // This sample accepts the service connection string as a parameter, if present
             ValidateConnectionString();
@@ -21,13 +23,13 @@ namespace InvokeDeviceMethod
             // Create a ServiceClient to communicate with service-facing endpoint on your hub.
             s_serviceClient = ServiceClient.CreateFromConnectionString(s_connectionString);
 
-            await InvokeMethodAsync(methodName,deviceID);
+            await InvokeMethodAsync(methodName, deviceID);
 
             s_serviceClient.Dispose();
         }
 
         // Invoke the direct method on the device, passing the payload
-        private static async Task InvokeMethodAsync(string method,List<device> iotDevice)
+        private static async Task InvokeMethodAsync(string method, List<device> iotDevice)
         {
             var methodInvocation = new CloudToDeviceMethod(method)
             {
@@ -35,18 +37,19 @@ namespace InvokeDeviceMethod
             };
             methodInvocation.SetPayloadJson("10");
 
-            for(int i = 0;i < iotDevice.Count; i++){
-                 // Invoke the direct method asynchronously and get the response from the simulated device.
-                 try
-                 {
+            for (int i = 0; i < iotDevice.Count; i++)
+            {
+                // Invoke the direct method asynchronously and get the response from the simulated device.
+                try
+                {
                     var response = await s_serviceClient.InvokeDeviceMethodAsync(iotDevice[i].name, methodInvocation);
                     //Console.WriteLine($"\nResponse status: {response.Status}, payload:\n\t{response.GetPayloadAsJson()}");
-                 }
-                  catch(Exception e)
-                 {
-                     //Console.WriteLine(e);
-                 }
-                
+                }
+                catch (Exception e)
+                {
+                    //Console.WriteLine(e);
+                }
+
             }
         }
 
@@ -62,42 +65,51 @@ namespace InvokeDeviceMethod
             }
         }
         public static void setDoor()
-        { 
+        {
             List<device> doors = new List<device>();
-            for(int i = 0; i < Server.Program.devices.Count;i++)
+
+            for (int i = 0; i < Server.Program.devices.Count; i++)
             {
-                if(Server.Program.devices[i].type == "in")
+                if (Server.Program.devices[i].type == "in")
                 {
-                    if(Server.Program.devices[i].operation == false)
+                    if (Server.Program.devices[i].operation == false)
                     {
                         doors.Add(Server.Program.devices[i]);
                     }
                 }
             }
-            if(Server.Program.current<Server.Program.max)
+            if (Server.Program.systemDisabled == true)
             {
-                deviceMethod("unlock",doors).Wait();
-                for(int i = 0; i < doors.Count;i++)
+                deviceMethod("unlock", doors).Wait();
+                for (int i = 0; i < doors.Count; i++)
+                {
+                    doors[i].status = false;
+                }
+            }
+            else if (Server.Program.current < Server.Program.max)
+            {
+                deviceMethod("unlock", doors).Wait();
+                for (int i = 0; i < doors.Count; i++)
                 {
                     doors[i].status = false;
                 }
             }
             else
             {
-                deviceMethod("lock",doors).Wait();
-                for(int i = 0;i < doors.Count;i++ )
+                deviceMethod("lock", doors).Wait();
+                for (int i = 0; i < doors.Count; i++)
                 {
                     doors[i].status = true;
                 }
-            } 
+            }
         }
 
         public static void overrideDoor(int door)
         {
             int temp = -1;
-            for(int i = 0; i<Server.Program.devices.Count;i++)
+            for (int i = 0; i < Server.Program.devices.Count; i++)
             {
-                if(Server.Program.devices[i].id == door)
+                if (Server.Program.devices[i].id == door && Server.Program.systemDisabled==false)
                 {
                     temp = i;
                     goto gotDoor;
@@ -106,38 +118,36 @@ namespace InvokeDeviceMethod
         gotDoor:
             try
             {
-                if(Server.Program.devices[temp].operation)
+                if (Server.Program.devices[temp].operation)
                 {
                     Server.Program.devices[temp].operation = false;
-                    if(Server.Program.devices[temp].type == "out"||Server.Program.devices[temp].type == "both")
+                    if (Server.Program.devices[temp].type == "out" || Server.Program.devices[temp].type == "both")
                     {
                         Server.Program.devices[temp].status = false;
-                        List<device> methodList = new List<device>();methodList.Add(Server.Program.devices[temp]);
-                        deviceMethod("unlock",methodList).Wait();
+                        List<device> methodList = new List<device>(); methodList.Add(Server.Program.devices[temp]);
+                        deviceMethod("unlock", methodList).Wait();
                     }
                 }
                 else
                 {
                     Server.Program.devices[temp].operation = true;
-                    if(Server.Program.devices[temp].status)
+                    if (Server.Program.devices[temp].status)
                     {
-                        List<device> methodList = new List<device>();methodList.Add(Server.Program.devices[temp]);
-                        deviceMethod("unlock",methodList).Wait();
+                        List<device> methodList = new List<device>(); methodList.Add(Server.Program.devices[temp]);
+                        deviceMethod("unlock", methodList).Wait();
                         Server.Program.devices[temp].status = false;
                     }
                     else
                     {
-                        List<device> methodList = new List<device>();methodList.Add(Server.Program.devices[temp]);
-                        deviceMethod("lock",methodList).Wait();
+                        List<device> methodList = new List<device>(); methodList.Add(Server.Program.devices[temp]);
+                        deviceMethod("lock", methodList).Wait();
                         Server.Program.devices[temp].status = true;
                     }
-                    
-
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
-                
+
             }
         }
     }
