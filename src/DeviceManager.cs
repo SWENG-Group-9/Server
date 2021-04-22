@@ -78,41 +78,50 @@ namespace register
                 ids++;
                 var dev = RM.GetDeviceAsync(deviceID).Result;
                 deviceconn ="HostName=" + Server.Program.config["Hub Name"] + ".azure-devices.net;DeviceId=" + deviceID +";SharedAccessKey=" + dev.Authentication.SymmetricKey.PrimaryKey;
-                var twin = RM.GetTwinAsync(deviceID);
-                if(type == "in"){
-                    var patch =
-                    @"{
-                       tags: {
-                            location: null,
-                            door: in
-                        }
-                    }";
-                    RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
+                
+                    try
+                    {
+                        if(type == "in"){
+                            var patch =
+                        @"{
+                        tags: {
+                                location: null,
+                                door:in
+                            }
+                        }";
+                        RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
                     
-                }
-                else if(type == "out"){
-                    var patch =
-                    @"{
-                       tags: {
-                            location: null,
-                            door: out
                         }
-                    }";
-                    RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
-                }
-                else{
-                    var patch =
-                    @"{
-                       tags: {
-                            location: null,
-                            door: both
+                        else if(type == "out"){
+                            var patch =
+                            @"{
+                            tags: {
+                                    location: null,
+                                    door: out
+                                }
+                            }";
+                            RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
                         }
-                    }";
-                    RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
-                }
+                        else{
+                            var patch =
+                            @"{
+                            tags: {
+                                    location: null,
+                                    door: both
+                                }
+                            }";
+                            RM.UpdateTwinAsync(deviceID,patch,device.ETag).Wait();
+                        }
+                    }
+                    catch(Newtonsoft.Json.JsonReaderException syserr)
+                    {
+                        Console.WriteLine(syserr);
+                    }
+                    
+            
                 List<device> idList = new List<device>();
-                    idList.Add(Server.Program.devices[Server.Program.devices.Count-1]);
-                    InvokeDeviceMethod.Program.deviceMethod(type,idList).Wait();
+                idList.Add(Server.Program.devices[Server.Program.devices.Count-1]);
+                InvokeDeviceMethod.Program.deviceMethod(type,idList).Wait();
             }
             catch (DeviceAlreadyExistsException dvcEx)
             {
