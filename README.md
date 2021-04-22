@@ -4,7 +4,7 @@
 Returns the current number of people in the store in json format
 
 Sample Output
-```json
+```
 5
 ```
 
@@ -29,7 +29,7 @@ Overrides the lock mechanism and forces the door to either open or close (depend
 Registers a new IoT Device under the id and type ("in","out","both") given in the request with the IoT Hub and returns the connection string needed to be entered into the device in json format
 
 Sample Output
-```json
+```
 HostName=sweng.azure-devices.net;DeviceId=id;SharedAccessKey=9+fS9USROYYFY5/cV/sxet+tCMEyh+xQV/rg/V6oOSE=
 ```
 
