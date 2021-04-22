@@ -38,7 +38,7 @@ HostName=sweng.azure-devices.net;DeviceId=id;SharedAccessKey=9+fS9USROYYFY5/cV/s
 Returns a list of all devices connected to the IoT hub and returns all relative data in JSON. The format is [[device name,id number,type of door, door status (true if locked, false if unlocked), door operation mode(true if manual, false if automatic)].
 
 Sample Output
-```json
+```
 [[az-c89346883a40,0,in,true,false] , [AZ-c89346886016,1,out,false,false]]
 ```
 
