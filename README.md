@@ -19,7 +19,7 @@ Returns the max number of people in the store in json format
 Sets the max customers in the store to i
 
 
-## `PUT` `/api/door`
+## `PUT` `/api/door/id`
 
 Overrides the lock mechanism and forces the door to either open or close (depending on what it was before issuing the command). Issuing this command again returns the door to automatic.
 
