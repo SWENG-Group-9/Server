@@ -30,7 +30,10 @@ namespace Server.Controllers
                 returnString.Append(Server.Program.devices[i].status.ToString().ToLower() + ",");
                 returnString.Append(Server.Program.devices[i].operation.ToString().ToLower() + "],");
             }
-            returnString.Remove(returnString.Length - 1,1);
+            if(Server.Program.devices.Count > 0)
+            {
+                returnString.Remove(returnString.Length - 1,1);
+            }
             returnString.Append("]");
             return Ok(returnString.ToString());
         }
