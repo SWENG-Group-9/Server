@@ -25,6 +25,8 @@ namespace Server
         public static string frontendPort = config["Frontend"];
         public static int current = 0;
         public static int max = 10;
+
+        public static bool disabled = false;
         public static List<device> devices = new List<device>();
 
         static ThreadStart stats = new ThreadStart(getStats);
