@@ -22,7 +22,7 @@ namespace Server.Controllers
             return Ok(Server.Program.disabled.ToString().ToLower());
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{i}")]
         public ActionResult disable(int i)
         {
             if(i == 0)
