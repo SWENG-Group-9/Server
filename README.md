@@ -18,6 +18,11 @@ Returns the max number of people in the store in json format
 ## `PUT` `/api/max/i`
 Sets the max customers in the store to i
 
+## `GET` `/api/door`
+Returns whether the locking mechanism is disabled or not. true if disabled. false if enabled.
+
+## `POST` `/api/door/i`
+Takes int i and enables/disables the locking mechanism accordingly. If i = 0, the locks are enabled. Setting i to any other value disables all locks.
 
 ## `PUT` `/api/door/id`
 

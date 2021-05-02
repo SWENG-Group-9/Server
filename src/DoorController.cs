@@ -19,7 +19,7 @@ namespace Server.Controllers
         [HttpGet]
         public ActionResult<bool> doorStatus()
         {
-            return Ok();
+            return Ok(Server.Program.disabled.ToString().ToLower());
         }
 
         [HttpPost("{id}")]
