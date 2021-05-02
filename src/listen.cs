@@ -38,14 +38,16 @@ namespace devicemessages
                     if(message == "i"){
                         Program.current++;
                         Console.Write(Program.current);
-                        InvokeDeviceMethod.Program.setDoor();
+                        if(!Server.Program.disabled)
+                            InvokeDeviceMethod.Program.setDoor();
                         toFront.updates.updateCurrent();
                     }
                     else if(message == "d"){
                        if(Program.current > 0)
                         {
                             Program.current--;
-                            InvokeDeviceMethod.Program.setDoor();
+                            if(!Server.Program.disabled)
+                                InvokeDeviceMethod.Program.setDoor();
                             toFront.updates.updateCurrent();
                         }
                         Console.Write(Program.current);

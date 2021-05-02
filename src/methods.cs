@@ -63,33 +63,44 @@ namespace InvokeDeviceMethod
         }
         public static void setDoor()
         { 
-            List<device> doors = new List<device>();
-            for(int i = 0; i < Server.Program.devices.Count;i++)
+            if(!Server.Program.disabled)
             {
-                if(Server.Program.devices[i].type == "in")
+                List<device> doors = new List<device>();
+                for(int i = 0; i < Server.Program.devices.Count;i++)
                 {
-                    if(Server.Program.devices[i].operation == false)
+                    if(Server.Program.devices[i].type == "in")
                     {
-                        doors.Add(Server.Program.devices[i]);
+                        if(Server.Program.devices[i].operation == false)
+                        {
+                            doors.Add(Server.Program.devices[i]);
+                        }
                     }
                 }
-            }
-            if(Server.Program.current<Server.Program.max)
-            {
-                deviceMethod("unlock",doors).Wait();
-                for(int i = 0; i < doors.Count;i++)
+                if(Server.Program.current<Server.Program.max)
                 {
-                    doors[i].status = false;
+                    deviceMethod("unlock",doors).Wait();
+                    for(int i = 0; i < doors.Count;i++)
+                    {
+                        doors[i].status = false;
+                    }
                 }
+                else
+                {
+                    deviceMethod("lock",doors).Wait();
+                    for(int i = 0;i < doors.Count;i++ )
+                    {
+                        doors[i].status = true;
+                    }
+                } 
             }
             else
             {
-                deviceMethod("lock",doors).Wait();
-                for(int i = 0;i < doors.Count;i++ )
+                deviceMethod("unlock",Server.Program.devices).Wait();
+                for (int i = 0;i<Server.Program.devices.Count;i++)
                 {
-                    doors[i].status = true;
+                    Server.Program.devices[i].status = false;
                 }
-            } 
+            }
         }
 
         public static void overrideDoor(int door)

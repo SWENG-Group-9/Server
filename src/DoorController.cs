@@ -20,6 +20,21 @@ namespace Server.Controllers
         public ActionResult<bool> doorStatus()
         {
             return Ok();
-        }  
+        }
+
+        [HttpPost("{id}")]
+        public ActionResult disable(int i)
+        {
+            if(i == 0)
+            {
+                Server.Program.disabled =false;
+            }
+            else
+            {
+                Server.Program.disabled = true;
+            }
+            InvokeDeviceMethod.Program.setDoor();
+            return NoContent();
+        }
     }
 }

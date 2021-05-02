@@ -1,0 +1,7 @@
+{
+    "Frontend":"https://pandemicsafetysuite.azurewebsites.net/",
+    "Service" :"HostName=sweng.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=NTkLL9oPk7Gu8RrfadVc7+DoO9HnBvDWv9x311tv7nM=",
+    "Owner": "HostName=sweng.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=7EVv/KvGgCAToj4TeHKRoo5I812ttE6I2O/wvnOUaJ4=",
+    "Event" :"Endpoint=sb://iothub-ns-sweng-8642906-2c7633ebc9.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=7EVv/KvGgCAToj4TeHKRoo5I812ttE6I2O/wvnOUaJ4=;EntityPath=sweng",
+    "Hub Name" :"sweng"
+}
