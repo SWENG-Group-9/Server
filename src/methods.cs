@@ -68,7 +68,7 @@ namespace InvokeDeviceMethod
                 List<device> doors = new List<device>();
                 for(int i = 0; i < Server.Program.devices.Count;i++)
                 {
-                    if(Server.Program.devices[i].type == "in")
+                    if(Server.Program.devices[i].type == "in"||Server.Program.devices[i].type == "both")
                     {
                         if(Server.Program.devices[i].operation == false)
                         {
